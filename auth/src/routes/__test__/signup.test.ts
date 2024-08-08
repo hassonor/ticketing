@@ -1,5 +1,7 @@
 import request from 'supertest';
 import {app} from '../../app';
+import cookieSession from "cookie-session";
+
 
 it('returns a 201 on successful signup', async () => {
     await request(app)
@@ -53,4 +55,18 @@ it('disallows duplicate emails', async () => {
         })
         .expect(400);
 });
+
+
+it('sets a cookie after a successful signup', async () => {
+
+    const response = await request(app)
+        .post('/api/users/signup')
+        .send({
+            email: 'hassonor@gmail.com',
+            password: 'password'
+        })
+        .expect(201);
+
+    expect(response.get('Set-Cookie')).toBeDefined();
+})
 
