@@ -9,7 +9,6 @@ interface LandingPageProps {
 }
 
 const LandingPage = ({currentUser}: LandingPageProps) => {
-    console.log(currentUser);
 
     return currentUser ? (
         <h1>You are signed in</h1>

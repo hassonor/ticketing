@@ -12,6 +12,14 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: orh87/tickets
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
     - image: orh87/client
       context: client
       docker:
