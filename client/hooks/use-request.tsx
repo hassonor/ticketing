@@ -5,6 +5,7 @@ interface UseRequestProps {
     url: string;
     method: 'get' | 'post' | 'put' | 'delete' | 'patch';
     body?: any;
+    onSuccess?: (data: any) => void;
 }
 
 interface ErrorResponse {
@@ -16,13 +17,17 @@ interface AxiosErrorResponse {
     errors: ErrorResponse[];
 }
 
-const useRequest = ({url, method, body}: UseRequestProps) => {
+const useRequest = ({url, method, body, onSuccess}: UseRequestProps) => {
     const [errors, setErrors] = useState<JSX.Element | null>(null);
 
     const doRequest = async (): Promise<any> => {
         try {
             setErrors(null);
             const response: AxiosResponse = await axios[method](url, body);
+
+            if (onSuccess) {
+                onSuccess(response.data);
+            }
             return response.data;
         } catch (err) {
             const axiosError = err as AxiosError<AxiosErrorResponse>;
