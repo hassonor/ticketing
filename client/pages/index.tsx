@@ -1,10 +1,8 @@
 import buildClient from "@/api/build-client";
 import {GetServerSideProps} from "next";
+import {fetchCurrentUser} from "@/pages/_app";
+import {CurrentUser} from "@/interfaces/current-user.interface";
 
-interface CurrentUser {
-    id: string;
-    email: string;
-}
 
 interface LandingPageProps {
     currentUser: CurrentUser | null;
@@ -21,12 +19,11 @@ const LandingPage = ({currentUser}: LandingPageProps) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const client = buildClient(context);
-    const {data} = await client.get('/api/users/currentuser');
+    const currentUser = await fetchCurrentUser(context);
 
     return {
         props: {
-            currentUser: data.currentUser || null,
+            ...currentUser,
         },
     };
 };
