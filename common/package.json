@@ -1,0 +1,23 @@
+{
+  "name": "@ohticketing/common",
+  "version": "1.0.1",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "files": [
+    "build/**/*"
+  ],
+  "scripts": {
+    "clean:win": "rmdir /s /q build",
+    "clean": "del-cli ./build/*",
+    "build": "npm run clean:win && tsc"
+  },
+  "keywords": [],
+  "author": "Or Hasson",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {},
+  "devDependencies": {
+    "del-cli": "^5.1.0",
+    "typescript": "^5.5.4"
+  }
+}
