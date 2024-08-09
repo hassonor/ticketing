@@ -1,8 +1,7 @@
 import express, {Request, Response} from 'express';
 import {body} from 'express-validator';
-import {validateRequest} from "../middlewares/validate-request";
+import {validateRequest, BadRequestError} from "@ohticketing/common";
 import {User} from "../models/users";
-import {BadRequestError} from "../errors/bad-request-error";
 import {PasswordManager} from "../services/password";
 import jwt from "jsonwebtoken";
 
@@ -34,7 +33,7 @@ router.post('/api/users/signin',
         req.session = {
             jwt: userJwt
         };
-    
+
         res.status(200).send(existingUser);
     });
 
