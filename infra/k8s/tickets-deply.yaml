@@ -25,6 +25,8 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
+            - name: RABBITMQ_URI
+              value: 'amqp://rabbitmq:5672'
 ---
 apiVersion: v1
 kind: Service

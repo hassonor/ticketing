@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import {app} from "./app";
+import {rabbitMQWrapper} from "@ohticketing/common";
 // import {kafkaWrapper} from "@ohticketing/common";
 
 const start = async () => {
@@ -9,13 +10,16 @@ const start = async () => {
     if (!process.env.MONGO_URI) {
         throw new Error('MONGO_URI must be defined');
     }
-    // try {
-    //     await kafkaWrapper.connect(['my-cluster-kafka-bootstrap:9092'], 'tickets-srv');
-    //     await kafkaWrapper.producer.connect();
-    //     console.log('Connected to Kafka');
-    // } catch (err) {
-    //     console.error(err);
-    // }
+    if (!process.env.RABBITMQ_URI) {
+        throw new Error('RABBITMQ_URI must be defined');
+    }
+
+    try {
+        await rabbitMQWrapper.connect(process.env.RABBITMQ_URI);
+        console.log('Connected to RabbitMQ');
+    } catch (err) {
+        console.error('Error connecting to RabbitMQ:', err);
+    }
     try {
         await mongoose.connect(process.env.MONGO_URI);
         console.log('Connected to MongoDB');

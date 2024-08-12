@@ -31,3 +31,10 @@ spec:
                 name: client-srv
                 port:
                   number: 3000
+          - path: /rabbitmq/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: rabbitmq
+                port:
+                  number: 15672
