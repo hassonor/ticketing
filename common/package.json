@@ -1,6 +1,6 @@
 {
   "name": "@ohticketing/common",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "files": [
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "del-cli": "^5.1.0",
+    "dotenv": "^16.4.5",
     "typescript": "^5.5.4"
   }
 }
