@@ -1,6 +1,6 @@
 {
   "name": "@ohticketing/common",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "files": [
@@ -23,7 +23,8 @@
     "cookie-session": "^2.1.0",
     "express": "^4.19.2",
     "express-validator": "^7.1.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "kafkajs": "^2.2.4"
   },
   "devDependencies": {
     "del-cli": "^5.1.0",

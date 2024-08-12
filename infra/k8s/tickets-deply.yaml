@@ -18,6 +18,8 @@ spec:
           env:
             - name: MONGO_URI
               value: 'mongodb://tickets-mongo-srv:27017/tickets'
+            - name: KAFKAJS_NO_PARTITIONER_WARNING
+              value: "1"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:

@@ -9,3 +9,5 @@
 7. On Chrome press on keyboard: `thisisunsafe` to remove the cert warning
 8. run from `ticketing/client` the command: `docker build -t [dockerHubId]/client .`
 9. run from `ticketing/client` the command: ` docker push [dockerHubId]/client`
+10. setup Kafka on
+    Kubernetes: `https://www.digitalocean.com/community/developer-center/how-to-deploy-kafka-on-docker-and-digitalocean-kubernetes#step-2-installing-strimzi-to-kubernetes`

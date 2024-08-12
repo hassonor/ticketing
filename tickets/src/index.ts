@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import {app} from "./app";
+import {kafkaWrapper} from "@ohticketing/common";
 
 const start = async () => {
     if (!process.env.JWT_KEY) {
@@ -7,6 +8,13 @@ const start = async () => {
     }
     if (!process.env.MONGO_URI) {
         throw new Error('MONGO_URI must be defined');
+    }
+    try {
+        await kafkaWrapper.connect(['my-cluster-kafka-bootstrap:9092'], 'tickets-service');
+        await kafkaWrapper.producer.connect();
+        console.log('Connected to Kafka');
+    } catch (err) {
+        console.error(err);
     }
     try {
         await mongoose.connect(process.env.MONGO_URI);
