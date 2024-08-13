@@ -16,6 +16,12 @@ spec:
         - name: tickets
           image: orh87/tickets
           env:
+            - name: KAFKA_CLIENT_ID
+              value: 'ticketing'
+            - name: KAFKA_BROKER
+              value: redpanda-srv:19092
+            - name: KAFKA_CONSUMER_GROUP_ID
+              value: tickets-service
             - name: MONGO_URI
               value: 'mongodb://tickets-mongo-srv:27017/tickets'
             - name: KAFKAJS_NO_PARTITIONER_WARNING

@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import {app} from "./app";
-import {rabbitMQWrapper} from "@ohticketing/common";
-// import {kafkaWrapper} from "@ohticketing/common";
+import {consumer, producer} from "./kafka";
 
 const start = async () => {
     if (!process.env.JWT_KEY) {
@@ -10,27 +9,73 @@ const start = async () => {
     if (!process.env.MONGO_URI) {
         throw new Error('MONGO_URI must be defined');
     }
-    if (!process.env.RABBITMQ_URI) {
-        throw new Error('RABBITMQ_URI must be defined');
+    if (!process.env.KAFKA_CLIENT_ID) {
+        throw new Error('KAFKA_CLIENT_ID must be defined');
+    }
+    if (!process.env.KAFKA_BROKER) {
+        throw new Error('KAFKA_BROKER must be defined');
+    }
+    if (!process.env.KAFKA_CONSUMER_GROUP_ID) {
+        throw new Error('KAFKA_CONSUMER_GROUP_ID must be defined');
     }
 
     try {
-        await rabbitMQWrapper.connect(process.env.RABBITMQ_URI);
-        console.log('Connected to RabbitMQ');
+        // Connect Kafka producer and consumer
+        await producer.connect();
+        console.log("Kafka Producer connected");
+
+        await consumer.connect();
+        console.log("Kafka Consumer connected");
+
+        // Start listening with the consumer
+        await consumer.listen();
+        console.log("Kafka Consumer listening for messages");
+
+        // Gracefully handle shutdown
+        process.on("SIGINT", async () => {
+            console.log("SIGINT received, shutting down gracefully...");
+            await shutdown();
+        });
+        process.on("SIGTERM", async () => {
+            console.log("SIGTERM received, shutting down gracefully...");
+            await shutdown();
+        });
     } catch (err) {
-        console.error('Error connecting to RabbitMQ:', err);
+        console.error(" Error connecting to Kafka:", err);
+        process.exit(1);
     }
+
     try {
+        // Connect to MongoDB
         await mongoose.connect(process.env.MONGO_URI);
-        console.log('Connected to MongoDB');
+        console.log("Connected to MongoDB");
     } catch (err) {
-        console.log(err);
+        console.error("Error connecting to MongoDB:", err);
+        process.exit(1); // Exit the process with a failure status code
     }
+
+    // Start the app
     app.listen(4000, () => {
-        console.log('Listening on port 4000');
+        console.log("Listening on port 4000");
     });
-}
+};
+
+const shutdown = async () => {
+    try {
+        await producer.disconnect();
+        console.log("Kafka Producer disconnected");
+
+        await consumer.disconnect();
+        console.log("Kafka Consumer disconnected");
+
+        await mongoose.disconnect();
+        console.log("MongoDB disconnected");
+    } catch (err) {
+        console.error("Error during shutdown:", err);
+    } finally {
+        console.log("👋 Shutdown complete. Exiting...");
+        process.exit(0);
+    }
+};
 
 start();
-
-

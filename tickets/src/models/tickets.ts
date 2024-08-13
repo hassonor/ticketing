@@ -14,6 +14,8 @@ interface TicketDoc extends mongoose.Document {
     title: string;
     price: number;
     userId: string;
+    version: number;
+    orderId?: string; // when we create a ticket, it will not have orderId, but when someone buys it, then it will have orderId
 }
 
 // An interface that describes the properties
@@ -35,6 +37,12 @@ const ticketSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    orderId: {type: String},
+    version: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
 }, {
     toJSON: {
         transform: (doc, ret) => {
@@ -43,6 +51,16 @@ const ticketSchema = new mongoose.Schema({
             delete ret.__v;
         },
     }
+});
+
+// Middleware to increment the version number manually before saving
+ticketSchema.pre('save', function (next) {
+    if (this.isNew) {
+        this.set({version: 1});
+    } else {
+        this.set({version: this.get('version') + 1});
+    }
+    next();
 });
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {

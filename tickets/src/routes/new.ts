@@ -2,6 +2,8 @@ import express, {Request, Response} from "express";
 import {requireAuth, validateRequest} from "@ohticketing/common";
 import {body} from "express-validator";
 import {Ticket} from "../models/tickets";
+import {TicketCreatedPublisher} from "../events/publishers/ticket-created-publisher";
+import {producer} from "../kafka";
 
 
 const router = express.Router();
@@ -19,6 +21,16 @@ router.post('/api/tickets', requireAuth, [
     })
 
     await ticket.save();
+
+
+    await new TicketCreatedPublisher(producer).publish({
+        id: ticket.id,
+        userId: ticket.userId,
+        title: ticket.title,
+        price: ticket.price,
+        version: ticket.version,
+    });
+
     res.status(201).send(ticket);
 })
 
