@@ -3,8 +3,15 @@
 2. run from `ticketing/tickets` the command: `docker build -t [dockerHubId]/tickets .` and
    then `docker push [dockerHubId]/tickets`.
 3. run from `ticketing` the command `skaffold dev`
-4. On Win: Add the following to `C:\Windows\System32\drivers\etc\hosts` -> `127.0.0.1 ticketing.dev`
-   and `127.0.0.1 rabbitmq.ticketing.dev`
+4. On Win: Add the following to `C:\Windows\System32\drivers\etc\hosts`:
+
+   ```
+    127.0.0.1 ticketing.dev
+    127.0.0.1 rabbitmq.ticketing.dev
+    127.0.0.1 api.redpanda.ticketing.dev
+    127.0.0.1 console.redpanda.ticketing.dev
+   ````
+
 5. run `kubectl create secret generic jwt-secret --from-literal=JWT_KEY=your_jwt_secret`
 6. On Browser Navigate to: `https://ticketing.dev/api/users/currentuser`
 7. `**If you have unsecure issues just type: "thisisunsafe"`
@@ -12,5 +19,7 @@
 9. run from `ticketing/client` the command: `docker build -t [dockerHubId]/client .`
 10. run from `ticketing/client` the command: ` docker push [dockerHubId]/client`
 11. Login RabbitMQ Dashboard: `https://rabbitmq.ticketing.dev`
+12. Redpanda API: `https://api.redpanda.ticketing.dev`
+13. Login Redpanda Console: `https://console.redpanda.ticketing.dev`
 
 ### **If you have unsecure issues just type: "thisisunsafe"
