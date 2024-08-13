@@ -42,3 +42,25 @@ spec:
                 name: rabbitmq-srv
                 port:
                   number: 15672
+
+    - host: api.redpanda.ticketing.dev
+      http:
+        paths:
+          - path: /?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: redpanda-srv
+                port:
+                  number: 9644
+
+    - host: console.redpanda.ticketing.dev
+      http:
+        paths:
+          - path: /?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: redpanda-console-svc
+                port:
+                  number: 8080
