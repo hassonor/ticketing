@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rabbitmq
-  labels:
-    app: rabbitmq
+  name: rabbitmq-depl
 spec:
   replicas: 1
   selector:
@@ -37,15 +35,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: rabbitmq
-  labels:
-    app: rabbitmq
+  name: rabbitmq-srv
 spec:
   ports:
     - port: 5672
       targetPort: 5672
+      protocol: TCP
       name: amqp
     - port: 15672
+      protocol: TCP
       targetPort: 15672
       name: management
   selector:

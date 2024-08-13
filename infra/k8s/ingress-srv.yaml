@@ -31,10 +31,14 @@ spec:
                 name: client-srv
                 port:
                   number: 3000
-          - path: /rabbitmq/?(.*)
+
+    - host: rabbitmq.ticketing.dev
+      http:
+        paths:
+          - path: /?(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: rabbitmq
+                name: rabbitmq-srv
                 port:
                   number: 15672
