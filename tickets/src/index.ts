@@ -22,10 +22,7 @@ const start = async () => {
     try {
         // Connect Kafka producer and consumer
         await producer.connect();
-        console.log("Kafka Producer connected");
-
         await consumer.connect();
-        console.log("Kafka Consumer connected");
 
         // Start listening with the consumer
         await consumer.listen();
@@ -51,7 +48,7 @@ const start = async () => {
         console.log("Connected to MongoDB");
     } catch (err) {
         console.error("Error connecting to MongoDB:", err);
-        process.exit(1); // Exit the process with a failure status code
+        process.exit(1);
     }
 
     // Start the app
@@ -63,10 +60,7 @@ const start = async () => {
 const shutdown = async () => {
     try {
         await producer.disconnect();
-        console.log("Kafka Producer disconnected");
-
         await consumer.disconnect();
-        console.log("Kafka Consumer disconnected");
 
         await mongoose.disconnect();
         console.log("MongoDB disconnected");
