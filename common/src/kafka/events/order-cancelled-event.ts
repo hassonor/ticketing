@@ -1,12 +1,12 @@
-import { Topics } from './topics';
+import {Topics} from '../topics';
 
 export interface OrderCancelledEvent {
-  topic: Topics.OrderCancelled;
-  data: {
-    id: string;
-    version: number;
-    ticket: {
-      id: string;
+    topic: Topics.OrderCancelled;
+    data: {
+        id: string;
+        version: number;
+        ticket: {
+            id: string;
+        };
     };
-  };
 }
